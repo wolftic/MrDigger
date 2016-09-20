@@ -5,7 +5,7 @@ public class MonsterScript : MonoBehaviour {
 
 	
 	void Update () {
-        transform.Translate(0, 0.017f, 0);
+        transform.Translate(0, -0.025f, 0);
     }
     void OnTriggerEnter2D(Collider2D other)
     {

@@ -5,19 +5,23 @@ public class MovementScript : MonoBehaviour
 {
 
     public float speed;
+    public float rotSpeed;
 
     
 
     void Update()
     {
-        transform.Translate((-Vector2.up * 0.5f + Vector2.right * Input.GetAxis("Horizontal")) * speed * Time.deltaTime);
+        /*transform.Translate((-Vector2.up * 0.5f + Vector2.right * Input.GetAxis("Horizontal")) * speed * Time.deltaTime);
         if (Input.GetKey(KeyCode.RightArrow)) {
             transform.Rotate(0, 0, 2);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             transform.Rotate(0, 0, -5);
-        }
+        }*/
+        transform.Translate(-transform.up * speed * Time.deltaTime);
+        transform.Rotate(0, 0, Input.GetAxis("Horizontal") * rotSpeed * Time.deltaTime);
+
     }
     void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Blocks")) {
