@@ -17,6 +17,8 @@ public class WorldGenerator : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject[] blocks = new GameObject[0]; //Spawnable blocks
+	[SerializeField]
+	public GameObject background;
 
 	private List<GameObject> chunks;
 	private float offset = 0f; //Distance offset
@@ -92,6 +94,10 @@ public class WorldGenerator : MonoBehaviour {
 						break;
 					}
 				}
+
+				GameObject bg = Instantiate (background) as GameObject;
+				bg.transform.position = new Vector3 (xy.x + x + .5f, xy.y + y + .5f);
+				bg.transform.SetParent (map.transform);
 			}
 		}
 		chunks.Add (map);
