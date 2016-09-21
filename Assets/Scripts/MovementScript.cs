@@ -3,11 +3,10 @@ using System.Collections;
 
 public class MovementScript : MonoBehaviour
 {
-
-    public float speed;
-    public float rotSpeed;
-
-    
+	[SerializeField]				//[SerializeField] zorgt ervoor dat je het in de editor kan zien.
+	private float speed = 1f;		//Gebruik private als je de variabele niet in een ander script gaat gebruiken.
+	[SerializeField]
+	private float rotSpeed = 25f;
 
     void Update()
     {
