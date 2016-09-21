@@ -22,6 +22,15 @@ public class MovementScript : MonoBehaviour
         transform.Translate(-transform.up * speed * Time.deltaTime);
         transform.Rotate(0, 0, Input.GetAxis("Horizontal") * rotSpeed * Time.deltaTime);
 
+        if (transform.position.x < 2.7)
+        {
+            transform.Rotate(0, 0, 1f);
+        }
+        if (transform.position.x > -2.7)
+        {
+            transform.Rotate(0, 0, -1f);
+        }
+
     }
     void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Blocks")) {
