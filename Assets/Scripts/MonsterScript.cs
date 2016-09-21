@@ -2,10 +2,11 @@
 using System.Collections;
 
 public class MonsterScript : MonoBehaviour {
-
+	[SerializeField]
+	private float speed = 1f;
 	
 	void Update () {
-        transform.Translate(0, -0.03f, 0);
+		transform.Translate( -Vector3.up * speed * Time.deltaTime);
     }
     void OnTriggerEnter2D(Collider2D other)
     {

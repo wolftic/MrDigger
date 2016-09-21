@@ -10,6 +10,8 @@ public class WorldGenerator : MonoBehaviour {
 	private float zoom = 1f; //Perlin noise zoom level
 	[SerializeField]
 	private float maxRange; //View distance
+	[SerializeField]
+	private float maxRangeToDelete = 50f;
 
 	[SerializeField]
 	private float updateInterval; //Hoe snel kijken we of een chunk gespawned moet worden?
@@ -45,9 +47,15 @@ public class WorldGenerator : MonoBehaviour {
 		GameObject[] g = chunks.ToArray ();
 
 		for (int i = 0; i < g.Length; i++) {
+			if (g [i] == null)
+				continue;
+			
 			float dist = Vector3.Distance (transform.position, g[i].transform.position);
  
 			g [i].SetActive (dist<maxRange); //Blocken die te ver van de generator zijn worden uitgeschakeld
+
+			if (dist > maxRangeToDelete)
+				Destroy (g [i]);
 
 			if (!g [i].activeSelf)
 				continue;
