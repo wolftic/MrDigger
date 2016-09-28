@@ -10,13 +10,9 @@ public class MonsterScript : MonoBehaviour {
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-		if (other.CompareTag("Player") || other.CompareTag("Blocks"))
+		if (other.CompareTag("Player") || other.tag.StartsWith("Blocks"))
         {
             other.gameObject.SetActive(false);
         }
-        /*if (other.CompareTag("Blocks")) Zelfde functionaliteit maar dan in 1 if statement.
-        {
-            other.gameObject.SetActive(false);
-        }*/
     }   
 }
