@@ -13,6 +13,8 @@ public class MovementScript : MonoBehaviour
 	private float screenWidth = 2.5f;
 	[SerializeField]
 	private ParticleSystem digParticle;
+	[SerializeField]
+	private Animator mineAnimation;
 
 	private PlayerHandler playerHandler;
 
@@ -48,7 +50,9 @@ public class MovementScript : MonoBehaviour
 				horizontal = perc;
 
 				transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler (0, 0, horizontal * maxRotation), rotSpeed * Time.deltaTime); // * rotSpeed * Time.deltaTime);
-			} else {
+			} else if (Input.GetAxisRaw("Horizontal") != 0) {
+				transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler (0, 0, Input.GetAxis("Horizontal") * maxRotation), rotSpeed * Time.deltaTime);
+ 			} else {
 				horizontal = Mathf.Lerp (horizontal, 0, Time.deltaTime);
 			}
 		}
@@ -65,26 +69,37 @@ public class MovementScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other) {
 		if (other.tag.StartsWith("Blocks")) {
-            other.gameObject.SetActive(false);
-
-			if (other.tag == "Blocks_Slow") {							//Ziet er niet efficient uit #needfeedback
-				digParticle.startColor = colors [0];
-				speed = Mathf.Clamp(speed - slowSpeed, 0, maxSpeed);
-			} else if(other.tag == "Blocks_Gold"){
-				digParticle.startColor = colors [1];
-				playerHandler.AddGold (1);
-			} else if(other.tag == "Blocks_Dirt"){
-				digParticle.startColor = colors [2];
-			} else if(other.tag == "Blocks_Stone"){
-				digParticle.startColor = colors [3];
-			} else if(other.tag == "Blocks_Gravel"){
-				digParticle.startColor = colors [4];
-			} 
-
-			digParticle.transform.position = other.transform.position;
-			digParticle.Play ();
+			Animator anim = (Animator)Instantiate (mineAnimation, other.transform.position, Quaternion.identity) as Animator;
+			anim.SetTrigger ("Play");
+			Destroy (anim.gameObject, 1f / 12f * 5f);
+			StartCoroutine (RemoveBlock (other.gameObject));
 		}
     }
+
+	IEnumerator RemoveBlock(GameObject block) {
+		yield return new WaitForSeconds (1f / 12f * 5f);
+
+		block.gameObject.SetActive(false);
+
+		if (block.tag == "Blocks_Slow") {							//Ziet er niet efficient uit #needfeedback
+			digParticle.startColor = colors [0];
+			speed = Mathf.Clamp(speed - slowSpeed, 0, maxSpeed);
+		} else if(block.tag == "Blocks_Gold"){
+			digParticle.startColor = colors [1];
+			playerHandler.AddGold (1);
+		} else if(block.tag == "Blocks_Dirt"){
+			digParticle.startColor = colors [2];
+		} else if(block.tag == "Blocks_Stone"){
+			digParticle.startColor = colors [3];
+		} else if(block.tag == "Blocks_Gravel"){
+			digParticle.startColor = colors [4];
+		}
+
+		digParticle.transform.position = block.transform.position;
+		digParticle.Play ();
+
+		yield break;
+	}
 
 	/// <summary>
 	/// Is the x position in the screen
