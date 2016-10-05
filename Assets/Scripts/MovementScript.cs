@@ -14,6 +14,8 @@ public class MovementScript : MonoBehaviour
 	[SerializeField]
 	private ParticleSystem digParticle;
 	[SerializeField]
+	private ParticleSystem bombParticle;
+	[SerializeField]
 	private Animator mineAnimation;
 
 	private PlayerHandler playerHandler;
@@ -81,20 +83,38 @@ public class MovementScript : MonoBehaviour
 
 		block.gameObject.SetActive(false);
 
-		if (block.tag == "Blocks_Slow") {							//Ziet er niet efficient uit #needfeedback
-			digParticle.startColor = colors [0];
-			speed = Mathf.Clamp(speed - slowSpeed, 0, maxSpeed);
-		} else if(block.tag == "Blocks_Gold"){
-			digParticle.startColor = colors [1];
+		Color startColor = Color.white;
+
+		switch (block.tag) {
+		case "Blocks_Slow":						//Ziet er niet efficient uit #needfeedback
+			startColor = colors [0];
+			speed = Mathf.Clamp (speed - slowSpeed, 0, maxSpeed);
+			break;
+		case "Blocks_Gold":
+			startColor = colors [1];
 			playerHandler.AddGold (1);
-		} else if(block.tag == "Blocks_Dirt"){
-			digParticle.startColor = colors [2];
-		} else if(block.tag == "Blocks_Stone"){
-			digParticle.startColor = colors [3];
-		} else if(block.tag == "Blocks_Gravel"){
-			digParticle.startColor = colors [4];
+			break;
+		case "Blocks_Dirt":
+			startColor = colors [2];
+			break;
+		case "Blocks_Stone":
+			startColor = colors [3];
+			break;
+		case "Blocks_Gravel":
+			startColor = colors [4];
+			break;
+		case "Blocks_Bomb":
+			startColor = colors [5];
+			bombParticle.transform.position = block.transform.position;
+			bombParticle.Play ();
+			playerHandler.KillPlayer ();
+			break;
+		default:
+			Debug.Log ("Not found");
+			break;
 		}
 
+		digParticle.startColor = startColor;
 		digParticle.transform.position = block.transform.position;
 		digParticle.Play ();
 
