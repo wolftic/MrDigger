@@ -3,9 +3,9 @@ using System.Collections;
 
 public class PlayerHandler : MonoBehaviour {
 	[SerializeField]
-	private int _gold;
+	private int _gold = 0;
 	[SerializeField]
-	private int _score;
+	private int _score = 0;
 
 	private Vector3 startPos;
 

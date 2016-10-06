@@ -18,7 +18,7 @@ public class UIScript : MonoBehaviour
 
     void Update() {
         if (goToPlace) {
-            Camera.main.transform.localPosition = Vector3.Lerp(Camera.main.transform.localPosition, goTo, 3f * Time.deltaTime);
+            Camera.main.transform.localPosition = Vector3.Lerp(Camera.main.transform.localPosition, goTo, 1.5f * Time.deltaTime);
             gameObject.GetComponent<Text>().enabled = false;
         }
        
