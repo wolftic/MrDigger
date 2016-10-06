@@ -34,6 +34,9 @@ public class MovementScript : MonoBehaviour
 
     void Update()
     {
+		if (playerHandler.freezed)
+			return; 
+
         transform.Translate(-transform.up * speed * Time.deltaTime);
 
 		bool[] inScreen = InScreen (transform.position.x);

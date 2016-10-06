@@ -8,6 +8,8 @@ public class PlayerHandler : MonoBehaviour {
 	private int _score = 0;
 
 	private Vector3 startPos;
+	[SerializeField]
+	private Transform spawnPoint;
 
 	[SerializeField]
 	private UnityEngine.UI.Text GOLD;
@@ -15,6 +17,9 @@ public class PlayerHandler : MonoBehaviour {
 	private UnityEngine.UI.Text METER;
 	[SerializeField]
 	private ParticleSystem killParticle;
+
+	[HideInInspector]
+	public bool freezed = true;
 
 	public int gold {
 		get {
@@ -40,9 +45,15 @@ public class PlayerHandler : MonoBehaviour {
 		METER.text = _score + "m";
 	}
 
+	public void SpawnPlayer() {
+		transform.position = spawnPoint.position;
+		freezed = false;
+	}
+
 	public void KillPlayer() {
 		Database.database.UploadScoreToServer ("EDITOR", _score, _gold);
 		killParticle.Play ();
+		freezed = true;
 	//	gameObject.SetActive (false);
 	}
 }
