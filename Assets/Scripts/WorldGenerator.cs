@@ -36,6 +36,8 @@ public class WorldGenerator : MonoBehaviour {
 	}
 
 	void Update () {
+		if (Pause.current.isPaused)
+			return;
 		if (time < Time.time) {
 			time = Time.time + updateInterval;
 			OnCheck ();

@@ -41,6 +41,8 @@ public class PlayerHandler : MonoBehaviour {
 	}
 
 	void Update () {
+		if (Pause.current.isPaused)
+			return;
 		_score = (int)Mathf.Abs(Mathf.Round(startPos.y - transform.position.y));
 		METER.text = _score + "m";
 	}

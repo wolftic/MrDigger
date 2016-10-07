@@ -6,6 +6,8 @@ public class MonsterScript : MonoBehaviour {
 	private float speed = 1f;	//Gebruik private als je de variabele niet in een ander script gaat gebruiken.
 	
 	void Update () {
+		if (Pause.current.isPaused)
+			return;
 		transform.Translate( -Vector3.up * speed * Time.deltaTime);
     }
     void OnTriggerEnter2D(Collider2D other)

@@ -34,6 +34,9 @@ public class MovementScript : MonoBehaviour
 
     void Update()
     {
+		if (Pause.current.isPaused)
+			return;
+			
 		if (playerHandler.freezed)
 			return; 
 
@@ -138,7 +141,6 @@ public class MovementScript : MonoBehaviour
 		r [0] = x > -screenWidth/2; // als x buiten de -screenWidth/2 is dan is dit false
 		r [1] = x < screenWidth/2; // als x butien de screenWidth/2 is dan is dit false
 		r [2] = y > Camera.main.ScreenToWorldPoint(Vector3.zero).y;
-		Debug.Log (Camera.main.ScreenToWorldPoint (Vector3.zero).y);
 		return r;
 	}
 }
