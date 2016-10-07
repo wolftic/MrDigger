@@ -39,7 +39,7 @@ public class MovementScript : MonoBehaviour
 
         transform.Translate(-transform.up * speed * Time.deltaTime);
 
-		bool[] inScreen = InScreen (transform.position.x);
+		bool[] inScreen = InScreen (transform.position.x, transform.position.y);
 
 		if (!inScreen[0]){
             transform.Rotate(0, 0, 1f);
@@ -47,6 +47,10 @@ public class MovementScript : MonoBehaviour
 		if (!inScreen[1]) {
 			transform.Rotate (0, 0, -1f);
 		}
+		if (!inScreen [2]) {
+			speed = 0;
+		}
+
 		if (inScreen [0] && inScreen [1]) {
 			if (Input.touchCount > 0) {
 				float widt = Screen.width / 2;
@@ -129,10 +133,13 @@ public class MovementScript : MonoBehaviour
 	/// </summary>
 	/// <returns>2 booleans to check if the player is out of screen on the left or the right</returns>
 	/// <param name="x">The x coordinate.</param>
-	bool[] InScreen(float x) {
-		bool[] r = new bool[2];
-		r [0] = x > -screenWidth / 2; // als x buiten de -screenWidth/2 is dan is dit false
-		r [1] = x < screenWidth / 2; // als x butien de screenWidth/2 is dan is dit false
+	bool[] InScreen(float x, float y) {
+		bool[] r = new bool[3];
+		r [0] = x > -screenWidth/2; // als x buiten de -screenWidth/2 is dan is dit false
+		r [1] = x < screenWidth/2; // als x butien de screenWidth/2 is dan is dit false
+		r [2] = y > Camera.main.ScreenToWorldPoint(Vector3.zero).y;
+		Debug.Log (Camera.main.ScreenToWorldPoint (Vector3.zero).y);
 		return r;
 	}
 }
+

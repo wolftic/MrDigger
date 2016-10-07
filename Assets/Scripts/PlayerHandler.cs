@@ -48,6 +48,8 @@ public class PlayerHandler : MonoBehaviour {
 	public void SpawnPlayer() {
 		transform.position = spawnPoint.position;
 		freezed = false;
+		_gold = 0;
+		_score = 0;
 	}
 
 	public void KillPlayer() {
