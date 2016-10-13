@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 
 public class PlayerHandler : MonoBehaviour {
+	[SerializeField]
+	private string _name = "EDITOR";
 	[SerializeField]
 	private int _gold = 0;
 	[SerializeField]
@@ -17,6 +20,9 @@ public class PlayerHandler : MonoBehaviour {
 	private UnityEngine.UI.Text METER;
 	[SerializeField]
 	private ParticleSystem killParticle;
+
+	[SerializeField]
+	private UnityEvent onDie = new UnityEvent ();
 
 	[HideInInspector]
 	public bool freezed = true;
@@ -55,9 +61,20 @@ public class PlayerHandler : MonoBehaviour {
 	}
 
 	public void KillPlayer() {
-		Database.database.UploadScoreToServer ("EDITOR", _score, _gold);
 		killParticle.Play ();
 		freezed = true;
-	//	gameObject.SetActive (false);
+		transform.position = startPos;
+
+		onDie.Invoke ();
+
+		Vector3 pos = Camera.main.transform.position;
+		pos.y = 7;
+		Camera.main.transform.position = pos;
+
+		Database.database.UploadScoreToServer (_name, _score, _gold);
+	}
+
+	public void SetName(UnityEngine.UI.InputField field) {
+		_name = field.text;
 	}
 }

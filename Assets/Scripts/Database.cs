@@ -7,12 +7,22 @@ public class Database : MonoBehaviour {
 
 	public static Database database;
 
+	[SerializeField]
+	private UnityEngine.UI.Text textScore;
+	[SerializeField]
+	private UnityEngine.UI.Text textGold;
+	[SerializeField]
+	private UnityEngine.UI.Text textName;
+
 	void Start () {
 		database = this;
 	}
 
 	public void UploadScoreToServer(string name, int score, int gold) {
 		StartCoroutine (UploadScoreToServerIE (name, score, gold));
+		textScore.text = score.ToString();
+		textGold.text = gold.ToString();
+		textName.text = name;
 	}
 
 	IEnumerator UploadScoreToServerIE(string name, int score, int gold) {
