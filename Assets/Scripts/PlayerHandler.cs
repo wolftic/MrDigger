@@ -55,21 +55,34 @@ public class PlayerHandler : MonoBehaviour {
 
 	public void SpawnPlayer() {
 		transform.position = spawnPoint.position;
+        startPos = transform.position;
 		freezed = false;
 		_gold = 0;
 		_score = 0;
 	}
 
+    public void ResetPlayer()
+    {
+        freezed = true;
+        transform.position = new Vector3(0, 100, 0);
+
+        Vector3 pos = Camera.main.transform.localPosition;
+        pos.y = 7;
+        UIScript.current.goTo = pos;
+
+        Pause.current.ForceUnpause();
+    }
+
 	public void KillPlayer() {
 		killParticle.Play ();
 		freezed = true;
-		transform.position = startPos;
+		transform.position = new Vector3(0, 100, 0);
 
 		onDie.Invoke ();
 
-		Vector3 pos = Camera.main.transform.position;
+		Vector3 pos = Camera.main.transform.localPosition;
 		pos.y = 7;
-		Camera.main.transform.position = pos;
+        UIScript.current.goTo = pos;
 
 		Database.database.UploadScoreToServer (_name, _score, _gold);
 	}

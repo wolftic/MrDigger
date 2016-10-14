@@ -7,11 +7,13 @@ public class UIScript : MonoBehaviour
 {
     public Button butt;
     public GameObject monster;
-    private Vector3 goTo;
+    public Vector3 goTo;
     private bool goToPlace = false;
+    public static UIScript current;
 
     void Start()
     {
+        current = this;
         Button btn = butt.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
     }
@@ -19,7 +21,6 @@ public class UIScript : MonoBehaviour
     void Update() {
         if (goToPlace) {
             Camera.main.transform.localPosition = Vector3.Lerp(Camera.main.transform.localPosition, goTo, 1.5f * Time.deltaTime);
-            gameObject.GetComponent<Text>().enabled = false;
         }
        
     }

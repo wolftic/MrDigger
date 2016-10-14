@@ -7,8 +7,8 @@ public class Pause : MonoBehaviour {
 	[SerializeField]
 	private UnityEngine.UI.Text countdown;
 
-	[HideInInspector]
-	public bool isPaused;
+	//[HideInInspector]
+	public bool isPaused = false;
 	private bool paused = false;
 
 	public static Pause current;
@@ -37,4 +37,10 @@ public class Pause : MonoBehaviour {
 		countdown.gameObject.SetActive (false);
 		yield break;
 	}
+
+    public void ForceUnpause()
+    {
+        paused = false;
+        isPaused = false;
+    }
 }

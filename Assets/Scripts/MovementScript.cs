@@ -34,8 +34,12 @@ public class MovementScript : MonoBehaviour
 
     void Update()
     {
-		if (Pause.current.isPaused)
-			return;
+        Debug.Log(Pause.current.isPaused);
+        Debug.Log(Pause.current);
+        if (Pause.current.isPaused)
+        {
+            return;
+        }
 			
 		if (playerHandler.freezed)
 			return; 
